@@ -10,7 +10,7 @@ const boards = `query {
 
 const getBoards = async () => {
   try {
-    return await instance.post('', { query: boards});
+    return await instance.post('', { query: boards });
   } catch (err) {
     throw err;
   }
