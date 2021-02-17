@@ -5,7 +5,7 @@ const cearteDependencies = async dependencies => {
     await Relation.destroy({ truncate: true, cascade: false });
     const created = await Relation.bulkCreate(dependencies);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 }
 

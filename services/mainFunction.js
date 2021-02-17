@@ -7,8 +7,10 @@ const getItems = require('../gql/items');
 /**
  * @description DAL Querries
  */
-const cearteDependencies = require('../DAL/dependencies');
+const createDependencies = require('../DAL/dependencies');
 const creatItems = require('../DAL/item');
+const mainTableData = require('../DAL/fetch-main-data');
+const updateDateTable = require('../DAL/update-dates-table');
 
 /** 
  * @description the relevant folder ID to work on 
@@ -130,7 +132,7 @@ const mapGroupItems = (groupItems, boardId, boardName) => groupItems.map(items =
  */
 const handlePerson = person => {
   if (person.includes(',')) {
-    return person.split(',');
+    return person.split(', ');
   } else {
     return [person];
   }
@@ -346,6 +348,49 @@ const mapDate = date => {
    }
  }
 
+ /**
+  * @description get all persisted data from
+  */
+ const fetchMainTableData = async () => {
+  return await mainTableData();
+ }
+
+/**
+ * @description map table of relevant user names (since they are named differently in the manual table [dates])
+ */
+const remapNamesToFitDatesTable = rawMainTableData => {
+  const data = rawMainTableData.map(row => {
+    let personInCharge;
+    switch (row.personInCharge) {
+      case 'elad zribi': personInCharge = 'EladZribi'; break;
+      case 'Jonathan Atia': personInCharge = 'JonathanAtia'; break;
+      case 'Shabi Uziel': personInCharge = 'ShabiUziel'; break;
+      case 'sima edry': personInCharge = 'simaEdry'; break;
+      case 'Yehonatan Afraimov': personInCharge = 'YehonatanAfraimov'; break;
+      case 'robib':
+      case 'shilo':
+      case 'noaat':
+        personInCharge = row.personInCharge; break;
+    }
+    return {
+      ...row,
+      personInCharge
+    }
+  })
+  
+  const mappedData = data.filter(row => typeof row.personInCharge !== 'undefined');
+  return mappedData;
+}
+
+/**
+ * @description update dates table
+ */
+const updateDatesTable = async rows => {
+  rows.forEach(async row => {
+    await updateDateTable({...row });
+  })
+}
+
 const _main = async () => {
   try {
     const data = await getBoards();
@@ -360,10 +405,16 @@ const _main = async () => {
     
     const [itemsForBulk, dependenciesForBulk] = mapPersonAndDependencies(flattenedTREE);
     
-    creatItems(itemsForBulk);
+    await creatItems(itemsForBulk);
 
-    cearteDependencies(dependenciesForBulk);
+    await createDependencies(dependenciesForBulk);
+    
+    const rawMainTableData = await fetchMainTableData();
 
+    const mappedData = remapNamesToFitDatesTable(rawMainTableData);
+    
+    await updateDatesTable(mappedData);
+    
     return true;
   } catch (err) {
     throw err;

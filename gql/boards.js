@@ -1,7 +1,7 @@
 const instance = require('../services/axios');
 
 const boards = `query {
-  boards {
+  boards (limit: 500) {
     id
     name
     board_folder_id

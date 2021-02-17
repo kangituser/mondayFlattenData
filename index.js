@@ -4,7 +4,7 @@ const db = require('./db/connect');
 
 const { _main } = require('./services/mainFunction');
 db.sync().then( async () => {
-  console.log("Connected to 'Monday_Project_Management_IT' database");
+  console.log(`Connected to ${process.env.DB_NAME} database`);
   await _main();
 }).catch(err => console.error(err));
 

@@ -6,8 +6,7 @@ const creatItems = async items => {
 
     const created = await Monday_Table.bulkCreate(items);
   } catch (err) {
-    // console.log(err);
-    throw err;
+    console.log(err);
   }
 }
 
