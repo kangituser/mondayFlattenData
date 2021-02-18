@@ -14,10 +14,11 @@ const updateDateTable = async ({
       {
         where: {
           DATE: {
-            [Op.gte]: new Date(plannedWorkTimeStart).toISOString().split('T')[0],
-            [Op.lte]: new Date(plannedWorkTimeEnd).toISOString().split('T')[0],
+            [Op.gte]: plannedWorkTimeStart,
+            [Op.lte]: plannedWorkTimeEnd,
+            // [Op.gte]: new Date(plannedWorkTimeStart).toISOString().split('T')[0],
+            // [Op.lte]: new Date(plannedWorkTimeEnd).toISOString().split('T')[0],
           },
-          // DATE: { [Op.lte]: new Date(plannedWorkTimeEnd).toISOString().split('T')[0] },
         },
       }
     );

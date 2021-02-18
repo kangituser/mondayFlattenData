@@ -357,6 +357,17 @@ const mapDate = date => {
   return await mainTableData();
  }
 
+const handleMappingStartDate = start => {
+  let d1 = new Date(start);
+  let d2 = new Date(d1.setDate(d1.getDate() - 1));
+  return d2.toISOString().split('T')[0];
+}
+const handleMappingEndDate = end => {
+  let d1 = new Date(end);
+  let d2 = new Date(d1.setDate(d1.getDate() + 1));
+  return d2.toISOString().split('T')[0];
+}
+
 /**
  * @description map table of relevant user names (since they are named differently in the manual table [dates])
  */
@@ -374,9 +385,11 @@ const remapNamesToFitDatesTable = rawMainTableData => {
       case 'noaat':
         personInCharge = row.personInCharge; break;
     }
+    
     return {
       ...row,
-      personInCharge
+      plannedWorkTimeStart: handleMappingStartDate(row.plannedWorkTimeStart),
+      plannedWorkTimeEnd: handleMappingEndDate(row.plannedWorkTimeEnd)
     }
   })
   
@@ -415,6 +428,7 @@ const _main = async () => {
 
     const mappedData = remapNamesToFitDatesTable(rawMainTableData);
     
+    // console.dir(mappedData, { maxArrayLength: null})
     await updateDatesTable(mappedData);
     console.log("Updating 'dates' table'.");
     
