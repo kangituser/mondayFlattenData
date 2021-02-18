@@ -132,7 +132,9 @@ const mapGroupItems = (groupItems, boardId, boardName) => groupItems.map(items =
  */
 const handlePerson = person => {
   if (person.includes(',')) {
-    return person.split(', ');
+    person = person.split(', ');
+    presone = person.map(p => p.trim());
+    return person;
   } else {
     return [person];
   }
@@ -414,6 +416,7 @@ const _main = async () => {
     const mappedData = remapNamesToFitDatesTable(rawMainTableData);
     
     await updateDatesTable(mappedData);
+    console.log("Updating 'dates' table'.");
     
     return true;
   } catch (err) {
