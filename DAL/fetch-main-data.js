@@ -6,7 +6,7 @@ const fetchMainTableData = async () => {
     return await Monday_Table.findAll({
       raw: true,
       where: { plannedWorkTimeStart: { [Op.ne]: null }, personInCharge: { [Op.ne]: '' } },
-      attributes: ['plannedWorkTimeStart', 'personInCharge']
+      attributes: ['plannedWorkTimeStart', 'plannedWorkTimeEnd' ,'personInCharge']
     });
   } catch (err) {
     console.log(err);
