@@ -1,17 +1,11 @@
 const { Op, NOW } = require('sequelize');
 const Dates = require('../db/models/date');
 
-const updateDateTable = async ({
-  personInCharge,
-  plannedWorkTimeStart,
-  plannedWorkTimeEnd,
-}) => {
+const updateDateTable = async ({ personInCharge, plannedWorkTimeStart, plannedWorkTimeEnd }) => {
   try {
     // check if planned start <= today &&  planned end >= today
-   
-    return await Dates.update(
-      { [personInCharge]: 1 },
-      {
+   if (personInCharge === 'Jonathan Atia') console.log(plannedWorkTimeStart, ' ', plannedWorkTimeEnd);
+    return await Dates.update({ [personInCharge]: 1 }, {
         where: {
           DATE: {
             [Op.gte]: plannedWorkTimeStart,

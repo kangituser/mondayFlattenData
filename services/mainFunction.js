@@ -373,19 +373,17 @@ const handleMappingEndDate = end => {
  */
 const remapNamesToFitDatesTable = rawMainTableData => {
   const data = rawMainTableData.map(row => {
-    let personInCharge;
+    // let personInCharge;
     switch (row.personInCharge) {
-      case 'elad zribi': personInCharge = 'EladZribi'; break;
-      case 'Jonathan Atia': personInCharge = 'JonathanAtia'; break;
-      case 'Shabi Uziel': personInCharge = 'ShabiUziel'; break;
-      case 'sima edry': personInCharge = 'simaEdry'; break;
-      case 'Yehonatan Afraimov': personInCharge = 'YehonatanAfraimov'; break;
+      case 'elad zribi': row.personInCharge = 'EladZribi'; break;
+      case 'Jonathan Atia': row.personInCharge = 'JonathanAtia'; break;
+      case 'Shabi Uziel': row.personInCharge = 'ShabiUziel'; break;
+      case 'sima edry': row.personInCharge = 'simaEdry'; break;
+      case 'Yehonatan Afraimov': row.personInCharge = 'YehonatanAfraimov'; break;
       case 'robib':
       case 'shilo':
-      case 'noaat':
-        personInCharge = row.personInCharge; break;
+      case 'noaat': personInCharge = row.personInCharge; break;
     }
-    
     return {
       ...row,
       plannedWorkTimeStart: handleMappingStartDate(row.plannedWorkTimeStart),
@@ -428,7 +426,6 @@ const _main = async () => {
 
     const mappedData = remapNamesToFitDatesTable(rawMainTableData);
     
-    // console.dir(mappedData, { maxArrayLength: null})
     await updateDatesTable(mappedData);
     console.log("Updating 'dates' table'.");
     
