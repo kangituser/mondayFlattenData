@@ -1,5 +1,6 @@
 const sequelize = require('./connect');
 
-module.exports = modelName => {
-  return { sequelize, modelName, timestamps: false }
-}
+/** 
+ * @description a generic helper to configure table models.
+ */
+module.exports = modelName => ({ sequelize, modelName, timestamps: false })

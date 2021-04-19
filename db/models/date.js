@@ -1,6 +1,5 @@
 const { Model, INTEGER, STRING } = require('sequelize');
 const sequelize = require('../connect');
-// const options = require('../options')('Date');
 
 class Dates extends Model {}
 

@@ -19,7 +19,6 @@ Folder.init({
     allowNull: true
   }
 
-  
 }, options);
 
 module.exports = Folder;

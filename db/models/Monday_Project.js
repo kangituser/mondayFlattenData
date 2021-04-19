@@ -85,6 +85,4 @@ Monday_Table.init({
   }
 }, options);
 
-// Monday_Table.hasMany(Relation, { sourceKey: 'item_id', foreignKey: 'parent_id', constraints: false });
-
 module.exports = Monday_Table;
